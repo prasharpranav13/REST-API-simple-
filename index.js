@@ -36,16 +36,26 @@ app.get("/api/users/:userId", (req, res) => {
 //   return res.json({ status: "pending" });
 // });
 
-app
-  .route("/api/users/:userId")
-  .post((req, res) => {
-    return res.json({ status: "pending" });
-  })
-  .patch((req, res) => {
-    return res.json({ status: "pending" });
-  })
-  .delete((req, res) => {
-    return res.json({ status: "pending" });
+// app
+//   .route("/api/users/:userId")
+//   .post((req, res) => {
+//     return res.json({ status: "pending" });
+//   })
+//   .patch((req, res) => {
+//     return res.json({ status: "pending" });
+//   })
+//   .delete((req, res) => {
+//     return res.json({ status: "pending" });
+//   });
+
+const fs = require("fs");
+app.use(express.urlencoded({ extended: false })); //middleware
+app.post("/api/users", (req, res) => {
+  const body = req.body;
+  users.push({ ...body, id: users.length + 1 });
+  fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
+    return res.json({ status: `sucess`, id: users.length });
   });
+});
 
 app.listen(PORT, () => console.log(`server started`));
